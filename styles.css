@@ -1,0 +1,109 @@
+body {
+  font-family: "Arial", sans-serif;
+  line-height: 1.6;
+  color: #333;
+}
+
+header {
+  border-bottom: 3px solid #CFB87C;
+}
+header .container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+header .header-content {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+header img {
+  max-height: 100px;
+  width: auto;
+  -o-object-fit: contain;
+     object-fit: contain;
+}
+header h1 {
+  color: #1B2F56;
+  font-weight: bold;
+  margin: 0;
+  font-size: 2rem;
+}
+
+.nav-tabs {
+  border-bottom: 2px solid #1B2F56;
+}
+.nav-tabs .nav-link {
+  color: #495057;
+  border: none;
+  transition: all 0.3s ease;
+}
+.nav-tabs .nav-link:hover {
+  border: none;
+  color: #1B2F56;
+}
+.nav-tabs .nav-link.active {
+  color: #1B2F56;
+  font-weight: bold;
+  border: none;
+  border-bottom: 3px solid #CFB87C;
+}
+
+.auth-form {
+  background-color: #fff;
+  padding: 2rem;
+  border-radius: 0 0 8px 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+.auth-form h2 {
+  color: #1B2F56;
+  margin-bottom: 0.5rem;
+}
+.auth-form .form-label {
+  font-weight: 600;
+}
+.auth-form .form-control {
+  border: 1px solid #ced4da;
+  transition: all 0.3s ease;
+}
+.auth-form .form-control:focus {
+  border-color: #1B2F56;
+  box-shadow: 0 0 0 0.2rem rgba(27, 47, 86, 0.25);
+}
+.auth-form .btn-primary {
+  background-color: #1B2F56;
+  border-color: #1B2F56;
+  padding: 0.5rem 2rem;
+  transition: all 0.3s ease;
+}
+.auth-form .btn-primary:hover {
+  background-color: #0f1a2f;
+  border-color: #0f1a2f;
+}
+.auth-form .forgot-password,
+.auth-form .create-account {
+  color: #1B2F56;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+}
+.auth-form .forgot-password:hover,
+.auth-form .create-account:hover {
+  color: #090f1c;
+  text-decoration: underline !important;
+}
+
+footer {
+  border-top: 3px solid #CFB87C;
+  color: #1B2F56;
+}
+
+@media (max-width: 768px) {
+  .auth-form {
+    padding: 1rem;
+  }
+  .auth-form .d-flex {
+    flex-direction: column;
+    align-items: center !important;
+    gap: 0.5rem;
+  }
+}/*# sourceMappingURL=styles.css.map */

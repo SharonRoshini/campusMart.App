@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CampusMart - Login/Signup</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="styles.css" rel="stylesheet">
+</head>
+<body>
+    <header class="py-3 bg-light">
+        <nav class="container">
+            <div class="header-content">
+                <img src="images/logo.png" alt="CampusMart Logo">
+                <h1 class="text-center">CampusMart</h1>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container my-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <!-- Tab navigation -->
+                <nav>
+                    <div class="nav nav-tabs justify-content-center" id="nav-tab" role="tablist">
+                        <button class="nav-link active" id="nav-login-tab" data-bs-toggle="tab" 
+                                data-bs-target="#nav-login" type="button" role="tab" 
+                                aria-controls="nav-login" aria-selected="true">Login</button>
+                        <button class="nav-link" id="nav-signup-tab" data-bs-toggle="tab" 
+                                data-bs-target="#nav-signup" type="button" role="tab" 
+                                aria-controls="nav-signup" aria-selected="false">Sign Up</button>
+                    </div>
+                </nav>
+
+                <!-- Tab content -->
+                <div class="tab-content" id="nav-tabContent">
+                    <!-- Login Form -->
+                    <section class="tab-pane fade show active" id="nav-login" 
+                             role="tabpanel" aria-labelledby="nav-login-tab">
+                        <form class="auth-form" id="loginForm">
+                            <h2>Welcome Back!</h2>
+                            <p class="text-muted">Login to access the PFW CampusMart!</p>
+                            
+                            <div class="mb-3">
+                                <label for="loginEmail" class="form-label">PFW Email</label>
+                                <input type="email" class="form-control" id="loginEmail" 
+                                       required placeholder="your.name@pfw.edu">
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="loginPassword" class="form-label">Password</label>
+                                <input type="password" class="form-control" id="loginPassword" required>
+                            </div>
+                            
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-primary mb-3">Login</button>
+                            </div>
+
+                            <div class="d-flex justify-content-between align-items-center">
+                                <a href="#" class="text-decoration-none forgot-password">Forgot Password?</a>
+                                <a href="#" class="text-decoration-none create-account" id="createAccountLink">
+                                    Create a new account</a>
+                            </div>
+                        </form>
+                    </section>
+
+                    <!-- Signup Form -->
+                    <section class="tab-pane fade" id="nav-signup" 
+                             role="tabpanel" aria-labelledby="nav-signup-tab">
+                        <form class="auth-form" id="signupForm">
+                            <h2>Create Account</h2>
+                            <p class="text-muted">Join the PFW CampusMart community!</p>
+                            
+                            <div class="mb-3">
+                                <label for="signupName" class="form-label">Full Name</label>
+                                <input type="text" class="form-control" id="signupName" 
+                                       required placeholder="John Doe">
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="signupEmail" class="form-label">PFW Email</label>
+                                <input type="email" class="form-control" id="signupEmail" 
+                                       required placeholder="your.name@pfw.edu">
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="studentId" class="form-label">Student ID</label>
+                                <input type="text" class="form-control" id="studentId" 
+                                       required placeholder="900xxxxxx">
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="signupPassword" class="form-label">Password</label>
+                                <input type="password" class="form-control" id="signupPassword" required>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="confirmPassword" class="form-label">Confirm Password</label>
+                                <input type="password" class="form-control" id="confirmPassword" required>
+                            </div>
+                            
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-primary">Create Account</button>
+                            </div>
+                        </form>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="py-3 mt-5 bg-light">
+        <div class="container text-center">
+            <p>&copy; 2024 CampusMart. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <!-- First, load Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Then, add a separate script tag for your custom JavaScript -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Get the necessary elements
+        const createAccountLink = document.getElementById('createAccountLink');
+        const signupTab = document.getElementById('nav-signup-tab'); // Changed from 'signupForm' to 'nav-signup-tab'
+        
+        // Add click event listener to the "Create a new account" link
+        createAccountLink.addEventListener('click', function(e) {
+            e.preventDefault(); // Prevent the default anchor behavior
+            
+            // Trigger a click on the signup tab
+            signupTab.click();
+        });
+    });
+</script>
+</body>
+</html>
