@@ -7,7 +7,7 @@ import Signup from './pages/common/Signup';
 import ForgotPassword from './pages/common/ForgotPassword';
 import BuyerSellerChoice from './pages/common/BuyerSellerChoice'; // Import the choice page
 import BuyerDashboard from './pages/buyer/BuyerDashboard';           // Import the buyer dashboard
-import SellerDashboard from './pages/seller/SellerDashboard';        // Import the seller dashboard
+import SellerDashboard from './pages/seller/SellerDashboard';         // Import the seller dashboard
 import './App.css';
 
 
