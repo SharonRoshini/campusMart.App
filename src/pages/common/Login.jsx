@@ -20,7 +20,7 @@ const Login = () => {
     <Container className="mt-5">
       <Row className="justify-content-center">
         <Col md={6}>
-          <h2 className="text-center mb-4">Welcome Back!</h2>
+          {/* <h2 className="text-center mb-4">Welcome Back!</h2> */}
           <Form onSubmit={handleLogin}>
             <Form.Group controlId="formEmail">
               <Form.Label>PFW Email</Form.Label>
