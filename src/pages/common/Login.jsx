@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { Form, Button, Container, Row, Col } from 'react-bootstrap'; // Bootstrap components
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -16,37 +17,45 @@ const Login = () => {
   };
 
   return (
-    <div className="auth-container">
-      <h2>Welcome Back!</h2>
-      <form onSubmit={handleLogin}>
-        <div>
-          <label htmlFor="email">PFW Email</label>
-          <input
-            type="email"
-            id="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-            placeholder="your.name@pfw.edu"
-          />
-        </div>
-        <div>
-          <label htmlFor="password">Password</label>
-          <input
-            type="password"
-            id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
-        <button type="submit">Login</button>
-      </form>
-      <div className="auth-links">
-        <Link to="/forgot-password">Forgot Password?</Link>  {/* Forgot Password Link */}
-        <Link to="/signup">Create a new account</Link>        {/* Create Account Link */}
-      </div>
-    </div>
+    <Container className="mt-5">
+      <Row className="justify-content-center">
+        <Col md={6}>
+          <h2 className="text-center mb-4">Welcome Back!</h2>
+          <Form onSubmit={handleLogin}>
+            <Form.Group controlId="formEmail">
+              <Form.Label>PFW Email</Form.Label>
+              <Form.Control
+                type="email"
+                placeholder="your.name@pfw.edu"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+            </Form.Group>
+
+            <Form.Group controlId="formPassword" className="mt-3">
+              <Form.Label>Password</Form.Label>
+              <Form.Control
+                type="password"
+                placeholder="Enter your password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+            </Form.Group>
+
+            <Button variant="primary" type="submit" className="mt-4" block>
+              Login
+            </Button>
+          </Form>
+
+          <div className="d-flex justify-content-between mt-3">
+            <Link to="/forgot-password">Forgot Password?</Link>
+            <Link to="/signup">Create a new account</Link>
+          </div>
+        </Col>
+      </Row>
+    </Container>
   );
 };
 
