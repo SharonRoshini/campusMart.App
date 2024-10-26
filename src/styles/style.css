@@ -1,0 +1,61 @@
+/* Navbar Component Custom Styles */
+/* Logo styling */
+.navbar-brand-logo {
+  width: 50px; /* Logo size */
+  height: 50px; /* Logo size */
+  margin-bottom: 5px; /* Space between logo and brand name */
+  border-radius: 50%;
+}
+
+/* Brand name styling */
+.brand-name {
+  color: white; /* Text color */
+  font-size: 1.2em; /* Font size */
+  font-weight: bold; /* Bold font */
+  text-align: center; /* Center align the text */
+}
+
+/* Search bar styling */
+.search-bar-container {
+  width: 50%; /* Control width here */
+}
+
+.search-input {
+  border-radius: 20px; /* Rounded corners */
+}
+
+/* Profile and Role Icons */
+.nav-link-icon {
+  font-size: 1.5em; /* Adjust icon size */
+  color: #bbb; /* Light gray for icons */
+  transition: color 0.3s;
+}
+
+.nav-link-text {
+  font-size: 0.75em; /* Smaller text for link descriptions */
+  color: #ccc; /* Light gray for text */
+  margin-top: 2px; /* Space between icon and text */
+}
+
+/* Search button styling */
+/* Search button styling */
+.search-button {
+  background: transparent; /* Make the background transparent */
+  border: none; /* Remove border */
+  color: white; /* Set icon color to white */
+  padding: 0; /* Remove default padding */
+  cursor: pointer; /* Change cursor to pointer */
+  border-radius: 20px; /* Rounded corners */
+  margin-left: 10px; /* Space between input and button */
+}
+
+/* Prevent any hover effect that adds a background */
+.search-button:hover {
+  background: transparent; /* Ensure background remains transparent */
+  color: #ddd; /* Change color on hover for better visibility */
+}
+
+.search-button:focus {
+  outline: none; /* Remove focus outline */
+  box-shadow: none; /* Remove any box shadow */
+}/*# sourceMappingURL=style.css.map */
