@@ -1,138 +1,263 @@
 import React, { useState } from 'react';
-import { Container, Row, Col, Card, Button, Form } from 'react-bootstrap';
+import { Container, Row, Col, Card, Button, Form, Modal } from 'react-bootstrap';
 
-// Sample product data
 const initialProducts = [
-  { id: 1, name: "Product A", category: "Electronics", price: 150 },
-  { id: 2, name: "Product B", category: "Clothing", price: 50 },
-  { id: 3, name: "Product C", category: "Electronics", price: 300 },
-  { id: 4, name: "Product D", category: "Clothing", price: 100 },
+  { id: 1, name: "Product A", category: "Electronics", price: 150, negotiable: true, description: "Good condition", age: "1 year", contact: "1234567890", location: "New York", availableTill: "2024-12-31" },
+  { id: 2, name: "Product B", category: "Clothing", price: 50, negotiable: false, description: "Brand new", age: "2 months", contact: "9876543210", location: "Los Angeles", availableTill: "2024-11-15" },
 ];
 
 function SellerPage() {
   const [products, setProducts] = useState(initialProducts);
-  const [filters, setFilters] = useState({ category: '', minPrice: 0, maxPrice: 500 });
   const [showForm, setShowForm] = useState(false);
-  const [newProduct, setNewProduct] = useState({ name: '', category: '', price: '' });
+  const [newProduct, setNewProduct] = useState({
+    name: '',
+    category: '',
+    price: '',
+    negotiable: false,
+    ageYears: '',
+    ageMonths: '',
+    ageDays: '',
+    description: '',
+    contact: '',
+    location: '',
+    availableTill: '',
+    images: []
+  });
 
-  // Apply product filters
-  const applyFilters = () => {
-    return products.filter(product => (
-      (filters.category ? product.category === filters.category : true) &&
-      product.price >= filters.minPrice &&
-      product.price <= filters.maxPrice
-    ));
+  // Handle input changes
+  const handleChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    setNewProduct({
+      ...newProduct,
+      [name]: type === 'checkbox' ? checked : value,
+    });
+  };
+
+  // Handle file input for multiple images
+  const handleFileChange = (e) => {
+    setNewProduct({
+      ...newProduct,
+      images: Array.from(e.target.files),
+    });
   };
 
   // Handle form submission to add a new product
   const handleAddProduct = (e) => {
     e.preventDefault();
-    if (!newProduct.name || !newProduct.category || !newProduct.price) {
-      alert("Please fill in all fields.");
-      return;
-    }
-    setProducts([...products, { ...newProduct, id: products.length + 1, price: parseFloat(newProduct.price) }]);
-    setShowForm(false);
-    setNewProduct({ name: '', category: '', price: '' });
+    const productAge = `${newProduct.ageYears} years, ${newProduct.ageMonths} months, ${newProduct.ageDays} days`;
+    const newProductData = {
+      ...newProduct,
+      id: products.length + 1,
+      age: productAge,
+    };
+    setProducts([...products, newProductData]);
+    setShowForm(false);  // Close the modal after submitting
+    setNewProduct({
+      name: '',
+      category: '',
+      price: '',
+      negotiable: false,
+      ageYears: '',
+      ageMonths: '',
+      ageDays: '',
+      description: '',
+      contact: '',
+      location: '',
+      availableTill: '',
+      images: []
+    });
   };
 
   return (
     <Container className="mt-5">
+      <div className="d-flex justify-content-between align-items-center mb-3">
+        <h2>Your Products</h2>
+        <Button variant="primary" onClick={() => setShowForm(true)}>
+          Add Product
+        </Button>
+      </div>
+
+      {/* Product Display */}
       <Row>
-        {/* Left Filter Section */}
-        <Col md={3}>
-          <h3>Filters</h3>
-          <Form>
-            <Form.Group className="mb-3">
-              <Form.Label>Category</Form.Label>
-              <Form.Select value={filters.category} onChange={(e) => setFilters({ ...filters, category: e.target.value })}>
-                <option value="">All</option>
-                <option value="Electronics">Electronics</option>
-                <option value="Clothing">Clothing</option>
-              </Form.Select>
-            </Form.Group>
-            <Form.Group className="mb-3">
-              <Form.Label>Min Price</Form.Label>
-              <Form.Control
-                type="number"
-                value={filters.minPrice}
-                onChange={(e) => setFilters({ ...filters, minPrice: parseFloat(e.target.value) })}
-              />
-            </Form.Group>
-            <Form.Group className="mb-3">
-              <Form.Label>Max Price</Form.Label>
-              <Form.Control
-                type="number"
-                value={filters.maxPrice}
-                onChange={(e) => setFilters({ ...filters, maxPrice: parseFloat(e.target.value) })}
-              />
-            </Form.Group>
-          </Form>
-        </Col>
-
-        {/* Right Product Section */}
-        <Col md={9}>
-          <div className="d-flex justify-content-between align-items-center mb-3">
-            <h2>Your Products</h2>
-            <Button variant="primary" onClick={() => setShowForm(!showForm)}>
-              {showForm ? "Close Form" : "Add Product"}
-            </Button>
-          </div>
-
-          {/* Add Product Form */}
-          {showForm && (
-            <Form onSubmit={handleAddProduct} className="mb-4">
-              <h3>Add a New Product</h3>
-              <Form.Group className="mb-3">
-                <Form.Label>Product Name</Form.Label>
-                <Form.Control
-                  type="text"
-                  value={newProduct.name}
-                  onChange={(e) => setNewProduct({ ...newProduct, name: e.target.value })}
-                  placeholder="Enter product name"
-                />
-              </Form.Group>
-              <Form.Group className="mb-3">
-                <Form.Label>Category</Form.Label>
-                <Form.Select value={newProduct.category} onChange={(e) => setNewProduct({ ...newProduct, category: e.target.value })}>
-                  <option value="">Select Category</option>
-                  <option value="Electronics">Electronics</option>
-                  <option value="Clothing">Clothing</option>
-                </Form.Select>
-              </Form.Group>
-              <Form.Group className="mb-3">
-                <Form.Label>Price</Form.Label>
-                <Form.Control
-                  type="number"
-                  value={newProduct.price}
-                  onChange={(e) => setNewProduct({ ...newProduct, price: e.target.value })}
-                  placeholder="Enter price"
-                />
-              </Form.Group>
-              <Button variant="success" type="submit">Add Product</Button>
-            </Form>
-          )}
-
-          {/* Product Display */}
-          <Row>
-            {applyFilters().map((product) => (
-              <Col md={4} sm={6} className="mb-4" key={product.id}>
-                <Card className="h-100 shadow-sm">
-                  <Card.Body>
-                    <Card.Title>{product.name}</Card.Title>
-                    <Card.Text>Category: {product.category}</Card.Text>
-                    <Card.Text>Price: ${product.price}</Card.Text>
-                    <Button variant="primary">Edit Product</Button>
-                  </Card.Body>
-                </Card>
-              </Col>
-            ))}
-          </Row>
-        </Col>
+        {products.map((product) => (
+          <Col md={4} sm={6} className="mb-4" key={product.id}>
+            <Card className="h-100 shadow-sm">
+              <Card.Body>
+                <Card.Title>{product.name}</Card.Title>
+                <Card.Text>Category: {product.category}</Card.Text>
+                <Card.Text>Price: ${product.price}</Card.Text>
+                <Card.Text>Negotiable: {product.negotiable ? 'Yes' : 'No'}</Card.Text>
+                <Card.Text>Age: {product.age}</Card.Text>
+                <Card.Text>Description: {product.description}</Card.Text>
+                <Card.Text>Contact: {product.contact}</Card.Text>
+                <Card.Text>Location: {product.location}</Card.Text>
+                <Card.Text>Available Till: {product.availableTill}</Card.Text>
+                <Button variant="primary">Edit Product</Button>
+              </Card.Body>
+            </Card>
+          </Col>
+        ))}
       </Row>
+
+      {/* Add Product Modal */}
+      <Modal show={showForm} onHide={() => setShowForm(false)} size="lg">
+        <Modal.Header closeButton>
+          <Modal.Title>Add a New Product</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form onSubmit={handleAddProduct}>
+            <Row>
+              <Col md={6}>
+                <Form.Group className="mb-3">
+                  <Form.Label>Product Name</Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="name"
+                    value={newProduct.name}
+                    onChange={handleChange}
+                    placeholder="Enter product name"
+                    required
+                  />
+                </Form.Group>
+              </Col>
+              <Col md={6}>
+                <Form.Group className="mb-3">
+                  <Form.Label>Category</Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="category"
+                    value={newProduct.category}
+                    onChange={handleChange}
+                    placeholder="Enter category"
+                    required
+                  />
+                </Form.Group>
+              </Col>
+            </Row>
+            <Row>
+              <Col md={6}>
+                <Form.Group className="mb-3">
+                  <Form.Label>Price</Form.Label>
+                  <Form.Control
+                    type="number"
+                    name="price"
+                    value={newProduct.price}
+                    onChange={handleChange}
+                    placeholder="Enter price"
+                    required
+                  />
+                </Form.Group>
+              </Col>
+              <Col md={6}>
+                <Form.Group className="mb-3">
+                  <Form.Label>Negotiable</Form.Label>
+                  <Form.Check
+                    type="checkbox"
+                    name="negotiable"
+                    checked={newProduct.negotiable}
+                    onChange={handleChange}
+                    label="Is negotiable?"
+                  />
+                </Form.Group>
+              </Col>
+            </Row>
+            <Row>
+              <Col md={4}>
+                <Form.Group className="mb-3">
+                  <Form.Label>Age (Years)</Form.Label>
+                  <Form.Control
+                    type="number"
+                    name="ageYears"
+                    value={newProduct.ageYears}
+                    onChange={handleChange}
+                    placeholder="Years"
+                  />
+                </Form.Group>
+              </Col>
+              <Col md={4}>
+                <Form.Group className="mb-3">
+                  <Form.Label>Age (Months)</Form.Label>
+                  <Form.Control
+                    type="number"
+                    name="ageMonths"
+                    value={newProduct.ageMonths}
+                    onChange={handleChange}
+                    placeholder="Months"
+                  />
+                </Form.Group>
+              </Col>
+              <Col md={4}>
+                <Form.Group className="mb-3">
+                  <Form.Label>Age (Days)</Form.Label>
+                  <Form.Control
+                    type="number"
+                    name="ageDays"
+                    value={newProduct.ageDays}
+                    onChange={handleChange}
+                    placeholder="Days"
+                  />
+                </Form.Group>
+              </Col>
+            </Row>
+            <Form.Group className="mb-3">
+              <Form.Label>Description</Form.Label>
+              <Form.Control
+                as="textarea"
+                rows={3}
+                name="description"
+                value={newProduct.description}
+                onChange={handleChange}
+                placeholder="Enter product description"
+                required
+              />
+            </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label>Contact Info</Form.Label>
+              <Form.Control
+                type="text"
+                name="contact"
+                value={newProduct.contact}
+                onChange={handleChange}
+                placeholder="Enter contact info"
+                required
+              />
+            </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label>Location</Form.Label>
+              <Form.Control
+                type="text"
+                name="location"
+                value={newProduct.location}
+                onChange={handleChange}
+                placeholder="Enter location"
+                required
+              />
+            </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label>Available Till</Form.Label>
+              <Form.Control
+                type="date"
+                name="availableTill"
+                value={newProduct.availableTill}
+                onChange={handleChange}
+                required
+              />
+            </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label>Upload Images</Form.Label>
+              <Form.Control
+                type="file"
+                multiple
+                name="images"
+                onChange={handleFileChange}
+              />
+            </Form.Group>
+            <Button variant="success" type="submit">Add Product</Button>
+          </Form>
+        </Modal.Body>
+      </Modal>
     </Container>
   );
 }
 
 export default SellerPage;
-
