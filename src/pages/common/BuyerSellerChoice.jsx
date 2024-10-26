@@ -5,13 +5,22 @@ import { useNavigate } from 'react-router-dom';
 const BuyerSellerChoice = () => {
   const navigate = useNavigate();
 
+    // In BuyerSellerChoice.js or wherever the user selects their role
+  const setRole = (role) => {
+  localStorage.setItem('userRole', role); // Save the role to localStorage
+  };
+
   const handleChoice = (role) => {
     if (role === 'buyer') {
       navigate('/buyer-dashboard');
+      setRole('buyer');
     } else {
       navigate('/seller-dashboard');
+      setRole('seller');
     }
   };
+
+
 
   return (
     <Container className="mt-5">

@@ -1,28 +1,33 @@
 // api.js
+import bed from "./../assets/bed.png";
+import table from "./../assets/table.png";
+import speaker from "./../assets/speaker.png";
+import kitchen from "./../assets/kitchen.png";
+
 const products = [
     {
       id: 1,
-      name: "Apple iPhone 14",
-      price: "$799",
-      image: "https://example.com/iphone.jpg"
+      name: "Mattress & Bed",
+      price: "$110",
+      image: bed
     },
     {
       id: 2,
-      name: "Samsung Galaxy S21",
-      price: "$699",
-      image: "https://example.com/galaxy.jpg"
+      name: "Study Table",
+      price: "$40",
+      image: table
     },
     {
       id: 3,
-      name: "Google Pixel 7",
-      price: "$599",
-      image: "https://example.com/pixel.jpg"
+      name: "PC and Speakers",
+      price: "$170",
+      image: speaker
     },
     {
       id: 4,
-      name: "Sony WH-1000XM4 Headphones",
-      price: "$349",
-      image: "https://example.com/headphones.jpg"
+      name: "Kitchen Organizers",
+      price: "$50",
+      image: kitchen
     }
   ];
   
