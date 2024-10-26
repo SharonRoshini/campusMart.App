@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Form, Button, Container, Row, Col } from 'react-bootstrap';
+import axios from 'axios';
 
 const Signup = () => {
   const [fullName, setFullName] = useState('');
@@ -8,16 +9,36 @@ const Signup = () => {
   const [studentId, setStudentId] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  const handleSignup = (e) => {
+  const handleSignup = async (e) => {
     e.preventDefault();
+    setError('');
+
     if (password !== confirmPassword) {
-      alert('Passwords do not match');
+      setError('Passwords do not match');
       return;
     }
-    console.log('Signing up:', { fullName, email, studentId, password });
-    navigate('/login');
+
+    try {
+      const response = await axios.post('http://localhost:5000/api/users', {
+        name: fullName,
+        email,
+        studentId,
+        password,
+      });
+
+      if (response.status === 201) {
+        console.log('User created successfully:', response.data);
+        navigate('/login');
+      } else {
+        setError('Failed to create account');
+      }
+    } catch (err) {
+      console.error('Signup error:', err);
+      setError('An error occurred during signup. Please try again.');
+    }
   };
 
   return (
@@ -80,6 +101,7 @@ const Signup = () => {
                 required
               />
             </Form.Group>
+            {error && <p className="text-danger mt-3">{error}</p>}
 
             <Button variant="success" type="submit" className="mt-4" block>
               Create Account
