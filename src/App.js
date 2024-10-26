@@ -1,6 +1,6 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { BrowserRouter as Router, Routes, Route, useLocation, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import Logo from './components/common/Logo';
 import Footer from './components/common/Footer';
 import Login from './pages/common/Login';
@@ -34,33 +34,23 @@ function App() {
   };
 
   return (
-    <div className="app d-flex flex-column min-vh-100">
-      <Logo />
-      {/* Conditionally render BuyerHeader only on the /buyer-dashboard route */}
-      {location.pathname === '/buyer-dashboard' && <BuyerHeader />}
-
-      {/* Main Content */}
-      <div className="flex-grow-1">
-        <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/forgot-password" element={<ForgotPassword />} />
-          <Route path="/choose-role" element={<BuyerSellerChoice />} />
-          <Route path="/buyer-dashboard" element={<BuyerDashboard />} />
-          <Route path="/seller-dashboard" element={<SellerDashboard />} />
-          <Route path="/" element={<Login />} />
-        </Routes>
-      </div>
-
-      <Footer />
-    </div>
-  );
-}
-
-function App() {
-  return (
     <Router>
-      <AppContent />
+      <div className="app d-flex flex-column min-vh-100">
+        <Layout>
+          <div className="flex-grow-1">
+            <Routes>
+              <Route path="/login" element={<Login />} />
+              <Route path="/signup" element={<Signup />} />
+              <Route path="/forgot-password" element={<ForgotPassword />} />
+              <Route path="/choose-role" element={<BuyerSellerChoice />} />
+              <Route path="/buyer-dashboard" element={<BuyerDashboard />} />
+              <Route path="/seller-dashboard" element={<SellerDashboard />} />
+              <Route path="/" element={<Login />} />
+            </Routes>
+          </div>
+          <Footer />
+        </Layout>
+      </div>
     </Router>
   );
 }
