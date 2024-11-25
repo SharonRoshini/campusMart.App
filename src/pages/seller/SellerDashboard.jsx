@@ -135,6 +135,22 @@ function SellerPage() {
               </Col>
             </Row>
             <Row>
+              <Col md={12}>
+                <Form.Group className="mb-3">
+                  <Form.Label>Description</Form.Label>
+                  <Form.Control
+                    as="textarea"
+                    rows={3}
+                    name="description"
+                    value={newProduct.description}
+                    onChange={handleChange}
+                    placeholder="Enter product description"
+                    required
+                  />
+                </Form.Group>
+              </Col>
+            </Row>
+            <Row>
               <Col md={6}>
                 <Form.Group className="mb-3">
                   <Form.Label>Price</Form.Label>
@@ -199,63 +215,96 @@ function SellerPage() {
                 </Form.Group>
               </Col>
             </Row>
-            <Form.Group className="mb-3">
-              <Form.Label>Description</Form.Label>
-              <Form.Control
-                as="textarea"
-                rows={3}
-                name="description"
-                value={newProduct.description}
-                onChange={handleChange}
-                placeholder="Enter product description"
-                required
-              />
-            </Form.Group>
-            <Form.Group className="mb-3">
-              <Form.Label>Contact Info</Form.Label>
-              <Form.Control
-                type="text"
-                name="contact"
-                value={newProduct.contact}
-                onChange={handleChange}
-                placeholder="Enter contact info"
-                required
-              />
-            </Form.Group>
-            <Form.Group className="mb-3">
-              <Form.Label>Location</Form.Label>
-              <Form.Control
-                type="text"
-                name="location"
-                value={newProduct.location}
-                onChange={handleChange}
-                placeholder="Enter location"
-                required
-              />
-            </Form.Group>
-            <Form.Group className="mb-3">
-              <Form.Label>Available Till</Form.Label>
-              <Form.Control
-                type="date"
-                name="availableTill"
-                value={newProduct.availableTill}
-                onChange={handleChange}
-                required
-              />
-            </Form.Group>
-            <Form.Group className="mb-3">
-              <Form.Label>Upload Images</Form.Label>
-              <Form.Control
-                type="file"
-                multiple
-                name="images"
-                onChange={handleFileChange}
-              />
-            </Form.Group>
-            <Button variant="success" type="submit">Add Product</Button>
+            <Row>
+              <Col md={6}>
+                <Form.Group className="mb-3">
+                  <Form.Label>Condition</Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="condition"
+                    value={newProduct.condition}
+                    onChange={handleChange}
+                    placeholder="Enter condition"
+                    required
+                  />
+                </Form.Group>
+              </Col>
+              <Col md={6}>
+                <Form.Group className="mb-3">
+                  <Form.Label>Usage</Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="usage"
+                    value={newProduct.usage}
+                    onChange={handleChange}
+                    placeholder="Enter usage"
+                    required
+                  />
+                </Form.Group>
+              </Col>
+            </Row>
+            <Row>
+              <Col md={6}>
+                <Form.Group className="mb-3">
+                  <Form.Label>Available Till</Form.Label>
+                  <Form.Control
+                    type="date"
+                    name="availableTill"
+                    value={newProduct.availableTill}
+                    onChange={handleChange}
+                    required
+                  />
+                </Form.Group>
+              </Col>
+              <Col md={6}>
+                <Form.Group className="mb-3">
+                  <Form.Label>Contact Info</Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="contact"
+                    value={newProduct.contact}
+                    onChange={handleChange}
+                    placeholder="Enter contact info"
+                    required
+                  />
+                </Form.Group>
+              </Col>
+            </Row>
+            <Row>
+              <Col md={12}>
+                <Form.Group className="mb-3">
+                  <Form.Label>Location</Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="location"
+                    value={newProduct.location}
+                    onChange={handleChange}
+                    placeholder="Enter location"
+                    required
+                  />
+                </Form.Group>
+              </Col>
+            </Row>
+            <Row>
+              <Col md={12}>
+                <Form.Group className="mb-3">
+                  <Form.Label>Upload Images</Form.Label>
+                  <Form.Control
+                    type="file"
+                    multiple
+                    name="images"
+                    onChange={handleFileChange}
+                  />
+                </Form.Group>
+              </Col>
+            </Row>
+            <Button variant="success" type="submit">
+              Add Product
+            </Button>
           </Form>
         </Modal.Body>
       </Modal>
+
     </Container>
   );
 }

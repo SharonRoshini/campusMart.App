@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Form, Button, Container, Row, Col } from 'react-bootstrap';
 import axios from 'axios';
+import {RESIDENCE_OPTIONS} from '../../constants/options'
 
 const Signup = () => {
   const [fullName, setFullName] = useState('');
@@ -84,11 +85,12 @@ const Signup = () => {
                 onChange={(e) => setStudentLocation(e.target.value)}
                 required
               >
-                <option value="">Select Student Type</option>
-                <option value="StudentHousing">Student Housing</option>
-                <option value="CanterburyGreens">Canterbury Greens</option>
-                <option value="StJoe">St. Joe's</option>
-                <option value="others">Other</option>
+                <option value="">Select Student Location</option>
+                {RESIDENCE_OPTIONS.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
               </Form.Control>
             </Form.Group>
 

@@ -1,53 +1,9 @@
 import React, { useState } from 'react';
 import { Form, Card, Badge, Accordion, Button } from 'react-bootstrap';
 import { Home, DollarSign, Package, Clock, Activity, Grid, Filter } from 'lucide-react';
+import { RESIDENCE_OPTIONS, PRICE_OPTIONS, CONDITION_OPTIONS, USAGE_OPTIONS,  AGE_OPTIONS, CATEGORY_OPTIONS } from '../../constants/options';
 
 const SellerHeader = () => {
-  const RESIDENCE_OPTIONS = [
-    { label: "Student Housing", value: "student-housing" },
-    { label: "Canterbury Greens", value: "canterbury-greens" },
-    { label: "St. Joe's", value: "st-joes" }
-  ];
-
-  const PRICE_OPTIONS = [
-    { label: "0 - 10", value: "0-10" },
-    { label: "10 - 20", value: "10-20" },
-    { label: "20 - 40", value: "20-40" },
-    { label: "40 - 50", value: "40-50" },
-    { label: "50+", value: "50+" }
-  ];
-
-  const CONDITION_OPTIONS = [
-    { label: "Flawless", value: "flawless" },
-    { label: "Good", value: "good" },
-    { label: "Average", value: "average" },
-    { label: "Poor", value: "poor" }
-  ];
-
-  const USAGE_OPTIONS = [
-    { label: "Never Used", value: "never-used" },
-    { label: "Used Once", value: "used-once" },
-    { label: "Light Usage", value: "light-usage" },
-    { label: "Normal Usage", value: "normal-usage" },
-    { label: "Heavy Usage", value: "heavy-usage" }
-  ];
-
-  const AGE_OPTIONS = [
-    { label: "Brand New", value: "brand-new" },
-    { label: "0-1 month", value: "0-1month" },
-    { label: "1-3 months", value: "1-3months" },
-    { label: "1-6 months", value: "1-6months" },
-    { label: "6-12 months", value: "6-12months" },
-    { label: "1 year+", value: "1year" }
-  ];
-
-  const CATEGORY_OPTIONS = [
-    { label: "Kitchen", value: "kitchen" },
-    { label: "Appliances", value: "appliances" },
-    { label: "Electronics", value: "electronics" },
-    { label: "Furniture", value: "furniture" }
-  ];
-
   const [selectedResidence, setSelectedResidence] = useState([]);
   const [selectedPriceRange, setSelectedPriceRange] = useState([]);
   const [selectedCondition, setSelectedCondition] = useState([]);
