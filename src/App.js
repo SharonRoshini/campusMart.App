@@ -28,13 +28,18 @@ function App() {
     const headerRoutes = ['/login', '/signup', '/choose-role', '/', '/forgot-password'];
     const showLogo = headerRoutes.includes(location.pathname);
 
-    const showBuyerHeader = location.pathname.startsWith('/buyer-dashboard') || location.pathname.startsWith('/buyer-profile');
-    const showSellerHeader = location.pathname.startsWith('/seller-dashboard') || location.pathname.startsWith('/seller-profile');
+    // Show filters and dashboard-related components only on dashboard routes
+    const showFilters = location.pathname.startsWith('/buyer-dashboard') || location.pathname.startsWith('/seller-dashboard');
+
+    // Hide Buyer/Seller header on profile pages
+    const showBuyerHeader = location.pathname.startsWith('/buyer-dashboard') && !location.pathname.startsWith('/buyer-profile');
+    const showSellerHeader = location.pathname.startsWith('/seller-dashboard') && !location.pathname.startsWith('/seller-profile');
 
     return (
       <>
         {showNavbar && <NavbarComponent />}
         {showLogo && <Logo />}
+        {showFilters && <div className="filters"> {/* Your filter component here */} </div>}
         {showBuyerHeader && (
           <div className="d-flex">
             <BuyerHeader />
