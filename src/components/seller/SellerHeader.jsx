@@ -62,6 +62,16 @@ const SellerHeader = () => {
     setSelectedValues(updatedValues);
   };
 
+  // Function to handle clearing all filters
+  const handleClearFilters = () => {
+    setSelectedResidence([]);
+    setSelectedPriceRange([]);
+    setSelectedCondition([]);
+    setSelectedUsage([]);
+    setSelectedAge([]);
+    setSelectedCategory([]);
+  };
+
   const CheckboxGroup = ({ options, selectedValues, onChange }) => (
     <Form className="px-2">
       {options.map(({ label, value }) => (
@@ -193,7 +203,7 @@ const SellerHeader = () => {
       </Card.Body>
       {getTotalSelectedFilters() > 0 && (
         <Card.Footer className="bg-white border-top-0 p-3">
-          <Button variant="outline-secondary" size="sm" className="w-100">
+          <Button variant="outline-secondary" size="sm" className="w-100" onClick={handleClearFilters}>
             Clear All Filters ({getTotalSelectedFilters()})
           </Button>
         </Card.Footer>
