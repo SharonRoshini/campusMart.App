@@ -1,6 +1,6 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import products from './../../services/api'; // Product data
+import products from './../../services/api'; // Your product data
 import { Container, Row, Col, Button } from 'react-bootstrap';
 import { FaHeart } from 'react-icons/fa';
 
@@ -14,19 +14,15 @@ const ProductDetail = () => {
 
   return (
     <>
-      {/* Include Navbar */}
       <Container className="mt-5">
         <Row>
-          {/* Left: Product Image */}
           <Col md={6}>
             <img
               src={product.image}
               alt={product.name}
-              style={{ height:'70%', width: '80%', borderRadius: '10px', objectFit: "cover" }}
+              style={{ height: '70%', width: '80%', borderRadius: '10px', objectFit: 'cover' }}
             />
           </Col>
-
-          {/* Right: Product Details */}
           <Col md={6}>
             <h2>{product.name}</h2>
             <h4 style={{ color: '#555' }}>{product.price}</h4>
