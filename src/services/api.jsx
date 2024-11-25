@@ -17,7 +17,11 @@ const products = [
     location: "New York",
     availableTill: "2024-12-31",
     condition: "Good",
-    description: "A comfortable mattress and bed frame, perfect for a cozy bedroom."
+    description: "A comfortable mattress and bed frame, perfect for a cozy bedroom.",
+    contactInfo: {
+    "name": "John Doe",
+    "phone": "+123456789",
+    "email": "johndoe@example.com"}
   },
   {
     id: 2,
@@ -31,7 +35,11 @@ const products = [
     location: "New York",
     availableTill: "2024-12-31",
     condition: "Brand New",
-    description: "A sturdy and spacious study table, ideal for students or home offices."
+    description: "A sturdy and spacious study table, ideal for students or home offices.",
+    contactInfo: {
+      "name": "Jane Doe",
+      "phone": "+123456789",
+      "email": "janedoe@example.com"}
   },
   {
     id: 3,
@@ -45,7 +53,11 @@ const products = [
     location: "New York",
     availableTill: "2024-12-31",
     condition: "Like New",
-    description: "A powerful PC setup with high-quality speakers for entertainment or work."
+    description: "A powerful PC setup with high-quality speakers for entertainment or work.",
+    contactInfo: {
+      "name": "John Moe",
+      "phone": "+123456789",
+      "email": "johnmoe@example.com"}
   }
 ];
 

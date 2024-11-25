@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import products from './../../services/api'; // Import the products data
-import { Container, Row, Col, Card, Button } from 'react-bootstrap';
+import { Container, Row, Col, Card, Button, Modal } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { FaHeart } from 'react-icons/fa'; // FontAwesome Heart Icon
 
@@ -9,6 +9,10 @@ const BuyerDashboard = () => {
 
   // State to manage the wishlist
   const [wishlist, setWishlist] = useState([]);
+  
+  // State to control modal visibility and selected product
+  const [showModal, setShowModal] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState(null);
 
   // Navigate to product details page
   const viewProductDetails = (productId) => {
@@ -22,6 +26,18 @@ const BuyerDashboard = () => {
     } else {
       setWishlist([...wishlist, productId]); // Add to wishlist
     }
+  };
+
+  // Show Modal with contact info
+  const handleShowModal = (product) => {
+    setSelectedProduct(product);
+    setShowModal(true);
+  };
+
+  // Close the modal
+  const handleCloseModal = () => {
+    setShowModal(false);
+    setSelectedProduct(null);
   };
 
   return (
@@ -62,7 +78,11 @@ const BuyerDashboard = () => {
                     }
                   />
                   {/* Contact Seller Button */}
-                  <Button variant="outline-success" size="sm">
+                  <Button
+                    variant="outline-success"
+                    size="sm"
+                    onClick={() => handleShowModal(product)} // Show contact info modal
+                  >
                     Contact Seller
                   </Button>
                 </div>
@@ -71,6 +91,25 @@ const BuyerDashboard = () => {
           </Col>
         ))}
       </Row>
+
+      {/* Modal for Contact Info */}
+      {selectedProduct && (
+        <Modal show={showModal} onHide={handleCloseModal} centered>
+          <Modal.Header closeButton>
+            <Modal.Title>Contact Seller</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <h5><strong>Name:</strong> {selectedProduct.contactInfo.name}</h5>
+            <h5><strong>Phone Number:</strong> {selectedProduct.contactInfo.phone}</h5>
+            <h5><strong>Email:</strong> {selectedProduct.contactInfo.email}</h5>
+            <div className="d-flex justify-content-end mt-4">
+              <Button variant="primary" onClick={handleCloseModal}>
+                Send Notification
+              </Button>
+            </div>
+          </Modal.Body>
+        </Modal>
+      )}
     </Container>
   );
 };

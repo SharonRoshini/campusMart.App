@@ -1,12 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import products from './../../services/api'; // Your product data
-import { Container, Row, Col, Button } from 'react-bootstrap';
+import { Container, Row, Col, Button, Modal } from 'react-bootstrap';
 import { FaHeart } from 'react-icons/fa';
 
 const ProductDetail = () => {
   const { productId } = useParams();
   const product = products.find((p) => p.id === parseInt(productId));
+
+  // State to control the modal visibility
+  const [showModal, setShowModal] = useState(false);
+
+  // Toggle the modal visibility
+  const handleShowModal = () => setShowModal(true);
+  const handleCloseModal = () => setShowModal(false);
 
   if (!product) {
     return <h2 className="text-center mt-5">Product Not Found</h2>;
@@ -40,11 +47,30 @@ const ProductDetail = () => {
                 style={{ cursor: 'pointer' }}
                 title="Add to Wishlist"
               />
-              <Button variant="success">Contact Seller</Button>
+              <Button variant="success" onClick={handleShowModal}>
+                Contact Seller
+              </Button>
             </div>
           </Col>
         </Row>
       </Container>
+
+      {/* Modal for Contact Info */}
+      <Modal show={showModal} onHide={handleCloseModal} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>Contact Seller</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <h5><strong>Name:</strong> {product.contactInfo.name}</h5>
+          <h5><strong>Phone Number:</strong> {product.contactInfo.phone}</h5>
+          <h5><strong>Email:</strong> {product.contactInfo.email}</h5>
+          <div className="d-flex justify-content-end mt-4">
+            <Button variant="primary" onClick={handleCloseModal}>
+              Send Notification
+            </Button>
+          </div>
+        </Modal.Body>
+      </Modal>
     </>
   );
 };
