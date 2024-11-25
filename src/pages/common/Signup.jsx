@@ -6,7 +6,7 @@ import axios from 'axios';
 const Signup = () => {
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
-  const [studentId, setStudentId] = useState('');
+  const [studentlocation, setStudentLocation] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
@@ -22,11 +22,11 @@ const Signup = () => {
     }
 
     try {
-      const response = await axios.post('http://localhost:5000/api/users', {
+      const response = await axios.post('/api/users', {
         name: fullName,
-        email,
-        studentId,
-        password,
+        email: email,
+        password: password,
+        location: studentlocation,
       });
 
       if (response.status === 201) {
@@ -35,9 +35,16 @@ const Signup = () => {
       } else {
         setError('Failed to create account');
       }
-    } catch (err) {
-      console.error('Signup error:', err);
-      setError('An error occurred during signup. Please try again.');
+    } catch (error) {
+      console.error('Request failed:', error);
+      if (error.response) {
+        console.log('Response error:', error.response.data);
+        console.log('Response status:', error.response.status);
+      } else if (error.request) {
+        console.log('No response received:', error.request);
+      } else {
+        console.log('Error:', error.message);
+      }
     }
   };
 
@@ -69,15 +76,20 @@ const Signup = () => {
               />
             </Form.Group>
 
-            <Form.Group controlId="formStudentId" className="mt-3">
-              <Form.Label>Student ID</Form.Label>
+            <Form.Group controlId="formStudentLocation" className="mt-3">
+              <Form.Label>Student location</Form.Label>
               <Form.Control
-                type="text"
-                placeholder="900xxxxxx"
-                value={studentId}
-                onChange={(e) => setStudentId(e.target.value)}
+                as="select"
+                value={studentlocation}
+                onChange={(e) => setStudentLocation(e.target.value)}
                 required
-              />
+              >
+                <option value="">Select Student Type</option>
+                <option value="StudentHousing">Student Housing</option>
+                <option value="CanterburyGreens">Canterbury Greens</option>
+                <option value="StJoe">St. Joe's</option>
+                <option value="others">Other</option>
+              </Form.Control>
             </Form.Group>
 
             <Form.Group controlId="formPassword" className="mt-3">
