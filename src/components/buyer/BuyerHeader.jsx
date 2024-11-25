@@ -1,110 +1,205 @@
-import React from 'react';
-import { Container, Row, Col, Dropdown } from 'react-bootstrap';
+import React, { useState } from 'react';
+import { Form, Card, Badge, Accordion, Button } from 'react-bootstrap';
+import { Home, DollarSign, Package, Clock, Activity, Grid, Filter } from 'lucide-react';
 
 const BuyerHeader = () => {
+  const RESIDENCE_OPTIONS = [
+    { label: "Student Housing", value: "student-housing" },
+    { label: "Canterbury Greens", value: "canterbury-greens" },
+    { label: "St. Joe's", value: "st-joes" }
+  ];
+
+  const PRICE_OPTIONS = [
+    { label: "0 - 10", value: "0-10" },
+    { label: "10 - 20", value: "10-20" },
+    { label: "20 - 40", value: "20-40" },
+    { label: "40 - 50", value: "40-50" },
+    { label: "50+", value: "50+" }
+  ];
+
+  const CONDITION_OPTIONS = [
+    { label: "Flawless", value: "flawless" },
+    { label: "Good", value: "good" },
+    { label: "Average", value: "average" },
+    { label: "Poor", value: "poor" }
+  ];
+
+  const USAGE_OPTIONS = [
+    { label: "Never Used", value: "never-used" },
+    { label: "Used Once", value: "used-once" },
+    { label: "Light Usage", value: "light-usage" },
+    { label: "Normal Usage", value: "normal-usage" },
+    { label: "Heavy Usage", value: "heavy-usage" }
+  ];
+
+  const AGE_OPTIONS = [
+    { label: "Brand New", value: "brand-new" },
+    { label: "0-1 month", value: "0-1month" },
+    { label: "1-3 months", value: "1-3months" },
+    { label: "1-6 months", value: "1-6months" },
+    { label: "6-12 months", value: "6-12months" },
+    { label: "1 year+", value: "1year" }
+  ];
+
+  const CATEGORY_OPTIONS = [
+    { label: "Kitchen", value: "kitchen" },
+    { label: "Appliances", value: "appliances" },
+    { label: "Electronics", value: "electronics" },
+    { label: "Furniture", value: "furniture" }
+  ];
+
+  const [selectedResidence, setSelectedResidence] = useState([]);
+  const [selectedPriceRange, setSelectedPriceRange] = useState([]);
+  const [selectedCondition, setSelectedCondition] = useState([]);
+  const [selectedUsage, setSelectedUsage] = useState([]);
+  const [selectedAge, setSelectedAge] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState([]);
+
+  const handleCheckboxChange = (selectedValues, setSelectedValues) => (value) => {
+    const updatedValues = selectedValues.includes(value)
+      ? selectedValues.filter((item) => item !== value)
+      : [...selectedValues, value];
+    setSelectedValues(updatedValues);
+  };
+
+  const CheckboxGroup = ({ options, selectedValues, onChange }) => (
+    <Form className="px-2">
+      {options.map(({ label, value }) => (
+        <Form.Check
+          key={value}
+          type="checkbox"
+          className="mb-2 custom-checkbox"
+          label={
+            <span className="d-flex justify-content-between w-100">
+              {label}
+              {selectedValues.includes(value) && (
+                <Badge bg="primary" pill className="ms-2">
+                  ✓
+                </Badge>
+              )}
+            </span>
+          }
+          checked={selectedValues.includes(value)}
+          onChange={() => onChange(value)}
+        />
+      ))}
+    </Form>
+  );
+
+  const getTotalSelectedFilters = () => {
+    return [
+      selectedResidence,
+      selectedPriceRange,
+      selectedCondition,
+      selectedUsage,
+      selectedAge,
+      selectedCategory
+    ].reduce((acc, curr) => acc + curr.length, 0);
+  };
+
   return (
-    <Container fluid className="bg-white shadow-sm py-3 rounded">
-      <Row className="align-items-center justify-content-center">
-        {/* Residence Dropdown */}
-        <Col xs={2} className="text-center">
-          <Dropdown>
-            <Dropdown.Toggle variant="outline-secondary" className="w-100 text-start">
-              Residence
-            </Dropdown.Toggle>
-            <Dropdown.Menu>
-              <Dropdown.Item href="#/action-1">Student Housing</Dropdown.Item>
-              <Dropdown.Item href="#/action-2">Canterbury Greens</Dropdown.Item>
-              <Dropdown.Item href="#/action-3">St. Joe's</Dropdown.Item>
-            </Dropdown.Menu>
-          </Dropdown>
-        </Col>
+    <Card className="shadow-sm border-0" style={{ width: '280px' }}>
+      <Card.Header className="bg-white border-bottom-0 d-flex justify-content-between align-items-center py-3">
+        <div className="d-flex align-items-center">
+          <Filter className="me-2" size={20} />
+          <h5 className="mb-0" style={{ fontWeight: 'bold', color: '#007bff' }}>Filters</h5> {/* Bold and colorful Filters */}
+        </div>
+        {getTotalSelectedFilters() > 0 && (
+          <Badge bg="primary" pill>
+            {getTotalSelectedFilters()}
+          </Badge>
+        )}
+      </Card.Header>
+      <Card.Body className="p-0">
+        <Accordion flush>
+          <Accordion.Item eventKey="0">
+            <Accordion.Header>
+              <Home size={16} className="me-2" /> Residence
+            </Accordion.Header>
+            <Accordion.Body>
+              <CheckboxGroup
+                options={RESIDENCE_OPTIONS}
+                selectedValues={selectedResidence}
+                onChange={handleCheckboxChange(selectedResidence, setSelectedResidence)}
+              />
+            </Accordion.Body>
+          </Accordion.Item>
 
-        {/* Price Filter */}
-        <Col xs={2} className="text-center">
-          <Dropdown>
-            <Dropdown.Toggle variant="outline-secondary" className="w-100 text-start">
-              Price (USD)
-            </Dropdown.Toggle>
-            <Dropdown.Menu>
-              <Dropdown.Item href="#/action-1">0 - 10</Dropdown.Item>
-              <Dropdown.Item href="#/action-2">10 - 20</Dropdown.Item>
-              <Dropdown.Item href="#/action-3">20 - 40</Dropdown.Item>
-              <Dropdown.Item href="#/action-3">40 - 50</Dropdown.Item>
-              <Dropdown.Item href="#/action-3">50+</Dropdown.Item>
-            </Dropdown.Menu>
-          </Dropdown>
-        </Col>
+          <Accordion.Item eventKey="1">
+            <Accordion.Header>
+              <DollarSign size={16} className="me-2" /> Price Range
+            </Accordion.Header>
+            <Accordion.Body>
+              <CheckboxGroup
+                options={PRICE_OPTIONS}
+                selectedValues={selectedPriceRange}
+                onChange={handleCheckboxChange(selectedPriceRange, setSelectedPriceRange)}
+              />
+            </Accordion.Body>
+          </Accordion.Item>
 
-                {/* Filters Dropdown */}
-        <Col xs={2} className="text-center">
-          <Dropdown>
-            <Dropdown.Toggle variant="outline-secondary" className="w-100 text-start">
-              Filters
-            </Dropdown.Toggle>
-            <Dropdown.Menu>
-              {/* Condition Submenu */}
-              <Dropdown drop="end">
-                <Dropdown.Toggle variant="light" className="dropdown-item w-100 text-start">
-                  Condition
-                </Dropdown.Toggle>
-                <Dropdown.Menu>
-                  <Dropdown.Item href="#/flawless">Flawless</Dropdown.Item>
-                  <Dropdown.Item href="#/good">Good</Dropdown.Item>
-                  <Dropdown.Item href="#/average">Average</Dropdown.Item>
-                  <Dropdown.Item href="#/poor">Poor</Dropdown.Item>
-                </Dropdown.Menu>
-              </Dropdown>
+          <Accordion.Item eventKey="2">
+            <Accordion.Header>
+              <Activity size={16} className="me-2" /> Condition
+            </Accordion.Header>
+            <Accordion.Body>
+              <CheckboxGroup
+                options={CONDITION_OPTIONS}
+                selectedValues={selectedCondition}
+                onChange={handleCheckboxChange(selectedCondition, setSelectedCondition)}
+              />
+            </Accordion.Body>
+          </Accordion.Item>
 
-              {/* Usage Submenu */}
-              <Dropdown drop="end">
-                <Dropdown.Toggle variant="light" className="dropdown-item w-100 text-start">
-                  Usage
-                </Dropdown.Toggle>
-                <Dropdown.Menu>
-                  <Dropdown.Item href="#/never-used">Never Used</Dropdown.Item>
-                  <Dropdown.Item href="#/used-once">Used Once</Dropdown.Item>
-                  <Dropdown.Item href="#/light-usage">Light Usage</Dropdown.Item>
-                  <Dropdown.Item href="#/normal-usage">Normal Usage</Dropdown.Item>
-                  <Dropdown.Item href="#/heavy-usage">Heavy Usage</Dropdown.Item>
-                </Dropdown.Menu>
-              </Dropdown>
+          <Accordion.Item eventKey="3">
+            <Accordion.Header>
+              <Package size={16} className="me-2" /> Usage
+            </Accordion.Header>
+            <Accordion.Body>
+              <CheckboxGroup
+                options={USAGE_OPTIONS}
+                selectedValues={selectedUsage}
+                onChange={handleCheckboxChange(selectedUsage, setSelectedUsage)}
+              />
+            </Accordion.Body>
+          </Accordion.Item>
 
-              {/* Age Submenu */}
-              <Dropdown drop="end">
-                <Dropdown.Toggle variant="light" className="dropdown-item w-100 text-start">
-                  Age
-                </Dropdown.Toggle>
-                <Dropdown.Menu>
-                  <Dropdown.Item href="#/brand-new">Brand New</Dropdown.Item>
-                  <Dropdown.Item href="#/0-1month">0-1 month</Dropdown.Item>
-                  <Dropdown.Item href="#/1-3month">1-3 months</Dropdown.Item>
-                  <Dropdown.Item href="#/1-6months">1-6 months</Dropdown.Item>
-                  <Dropdown.Item href="#/6-12months">6-12 months</Dropdown.Item>
-                  <Dropdown.Item href="#/1year">1 year+</Dropdown.Item>
-                </Dropdown.Menu>
-              </Dropdown>
-            </Dropdown.Menu>
-          </Dropdown>
-        </Col>
+          <Accordion.Item eventKey="4">
+            <Accordion.Header>
+              <Clock size={16} className="me-2" /> Age
+            </Accordion.Header>
+            <Accordion.Body>
+              <CheckboxGroup
+                options={AGE_OPTIONS}
+                selectedValues={selectedAge}
+                onChange={handleCheckboxChange(selectedAge, setSelectedAge)}
+              />
+            </Accordion.Body>
+          </Accordion.Item>
 
-        {/* Category Dropdown */}
-        <Col xs={2} className="text-center">
-          <Dropdown>
-            <Dropdown.Toggle variant="outline-secondary" className="w-100 text-start">
-              Category
-            </Dropdown.Toggle>
-            <Dropdown.Menu>
-              <Dropdown.Item href="#/kitchen">Kitchen</Dropdown.Item>
-              <Dropdown.Item href="#/appliances">Appliances</Dropdown.Item>
-              <Dropdown.Item href="#/electronics">Electronics</Dropdown.Item>
-              <Dropdown.Item href="#/furniture">Furniture</Dropdown.Item>
-            </Dropdown.Menu>
-          </Dropdown>
-        </Col>
-      </Row>
-    </Container>
+          <Accordion.Item eventKey="5">
+            <Accordion.Header>
+              <Grid size={16} className="me-2" /> Category
+            </Accordion.Header>
+            <Accordion.Body>
+              <CheckboxGroup
+                options={CATEGORY_OPTIONS}
+                selectedValues={selectedCategory}
+                onChange={handleCheckboxChange(selectedCategory, setSelectedCategory)}
+              />
+            </Accordion.Body>
+          </Accordion.Item>
+        </Accordion>
+      </Card.Body>
+      {getTotalSelectedFilters() > 0 && (
+        <Card.Footer className="bg-white border-top-0 p-3">
+          <Button variant="outline-secondary" size="sm" className="w-100">
+            Clear All Filters ({getTotalSelectedFilters()})
+          </Button>
+        </Card.Footer>
+      )}
+    </Card>
   );
 };
 
 export default BuyerHeader;
-

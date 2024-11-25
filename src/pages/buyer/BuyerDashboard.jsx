@@ -25,7 +25,7 @@ const BuyerDashboard = () => {
   };
 
   return (
-    <Container className="mt-5">
+    <Container fluid className="py-4">
       <h2 className="text-center mb-4">Available Products</h2>
       <Row>
         {products.map((product) => (
