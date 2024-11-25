@@ -85,49 +85,64 @@ import SellerProfile from './pages/seller/SellerProfile';
 import NavbarComponent from './components/common/NavbarComponent';
 import BuyerHeader from './components/buyer/BuyerHeader';
 import SellerHeader from './components/seller/SellerHeader';
+import ProductDetail from './pages/buyer/ProductDetails';
 import './App.css';
 
 function App() {
+  /**
+   * Layout Component: Dynamically adjusts the header based on the route
+   */
   const Layout = ({ children }) => {
     const location = useLocation();
 
-    const showNavbar = location.pathname === '/buyer-dashboard' || location.pathname === '/seller-dashboard';
-    const headerRoutes = ['/login', '/signup', '/choose-role', '/', '/forgot-password'];
-    const showHeader = headerRoutes.includes(location.pathname);
-    const showBuyerHeader = location.pathname === '/buyer-dashboard';
-    const showSellerHeader = location.pathname === '/seller-dashboard';
+    // Define routes to control visibility of specific headers
+    const headerRoutes = ['/login', '/signup', '/choose-role', '/forgot-password', '/'];
+    const showLogo = headerRoutes.includes(location.pathname);
+
+    const showNavbar = ['/buyer-dashboard', '/seller-dashboard', '/product/:productId', '/buyer-profile', '/seller-profile'].some((route) =>
+      location.pathname.startsWith(route.replace(':productId', ''))
+    );
+
+    const showBuyerHeader = location.pathname.startsWith('/buyer-dashboard') || location.pathname.startsWith('/buyer-profile');
+    const showSellerHeader = location.pathname.startsWith('/seller-dashboard') || location.pathname.startsWith('/seller-profile');
 
     return (
       <>
-        {showNavbar && <NavbarComponent />}
-        {showHeader && <Logo />}
-        {showBuyerHeader && <BuyerHeader />}
-        {showSellerHeader && <SellerHeader />}
+        {showNavbar && <NavbarComponent />} {/* Show Navbar */}
+        {showLogo && <Logo />} {/* Show Logo for common pages */}
+        {showBuyerHeader && <BuyerHeader />} {/* Buyer-specific Header */}
+        {showSellerHeader && <SellerHeader />} {/* Seller-specific Header */}
         {children}
       </>
     );
   };
 
+  /**
+   * App Component: Main routing logic with Layout wrapping all routes
+   */
   return (
     <Router>
       <div className="app d-flex flex-column min-vh-100">
         <Layout>
           <div className="flex-grow-1">
             <Routes>
+              {/* Common Routes */}
               <Route path="/login" element={<Login />} />
               <Route path="/signup" element={<Signup />} />
               <Route path="/forgot-password" element={<ForgotPassword />} />
               <Route path="/choose-role" element={<BuyerSellerChoice />} />
-              
-              {/* Buyer-specific Routes */}
+              <Route path="/" element={<Login />} />
+
+              {/* Product Detail */}
+              <Route path="/product/:productId" element={<ProductDetail />} />
+
+              {/* Buyer Routes */}
               <Route path="/buyer-dashboard" element={<BuyerDashboard />} />
               <Route path="/buyer-profile" element={<BuyerProfile />} />
-              
-              {/* Seller-specific Routes */}
+
+              {/* Seller Routes */}
               <Route path="/seller-dashboard" element={<SellerDashboard />} />
               <Route path="/seller-profile" element={<SellerProfile />} />
-
-              <Route path="/" element={<Login />} />
             </Routes>
           </div>
           <Footer />
@@ -138,4 +153,3 @@ function App() {
 }
 
 export default App;
-
