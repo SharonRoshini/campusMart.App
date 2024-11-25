@@ -37,24 +37,11 @@ function App() {
 
     return (
       <>
-        {showNavbar && <NavbarComponent />}
-        {showHeader && <Logo />}
-        {/* Show BuyerHeader only on the buyer dashboard */}
-        {showBuyerHeader && (
-          <div className="d-flex">
-            <BuyerHeader />
-            <div className="flex-grow-1">{children}</div>
-          </div>
-        )}
-        {/* Show SellerHeader only on the seller dashboard */}
-        {showSellerHeader && (
-          <div className="d-flex">
-            <SellerHeader />
-            <div className="flex-grow-1">{children}</div>
-          </div>
-        )}
-        {/* If no header is needed, simply render children */}
-        {!showBuyerHeader && !showSellerHeader && <div className="flex-grow-1">{children}</div>}
+        {showNavbar && <NavbarComponent />} {/* Show Navbar */}
+        {showLogo && <Logo />} {/* Show Logo for common pages */}
+        {showBuyerHeader && <BuyerHeader />} {/* Buyer-specific Header */}
+        {showSellerHeader && <SellerHeader />} {/* Seller-specific Header */}
+        {children}
       </>
     );
   };
@@ -66,25 +53,29 @@ function App() {
     <Router>
       <div className="app d-flex flex-column min-vh-100">
         <Layout>
-          <Routes>
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<Signup />} />
-            <Route path="/forgot-password" element={<ForgotPassword />} />
-            <Route path="/choose-role" element={<BuyerSellerChoice />} />
-            
-            {/* Buyer-specific Routes */}
-            <Route path="/buyer-dashboard" element={<BuyerDashboard />} />
-            <Route path="/buyer-profile" element={<BuyerProfile />} />
-            
-            {/* Seller-specific Routes */}
-            <Route path="/seller-dashboard" element={<SellerDashboard />} />
-            <Route path="/seller-profile" element={<SellerProfile />} />
+          <div className="flex-grow-1">
+            <Routes>
+              {/* Common Routes */}
+              <Route path="/login" element={<Login />} />
+              <Route path="/signup" element={<Signup />} />
+              <Route path="/forgot-password" element={<ForgotPassword />} />
+              <Route path="/choose-role" element={<BuyerSellerChoice />} />
+              <Route path="/" element={<Login />} />
 
-            {/* Default route */}
-            <Route path="/" element={<Login />} />
-          </Routes>
+              {/* Product Detail */}
+              <Route path="/product/:productId" element={<ProductDetail />} />
+
+              {/* Buyer Routes */}
+              <Route path="/buyer-dashboard" element={<BuyerDashboard />} />
+              <Route path="/buyer-profile" element={<BuyerProfile />} />
+
+              {/* Seller Routes */}
+              <Route path="/seller-dashboard" element={<SellerDashboard />} />
+              <Route path="/seller-profile" element={<SellerProfile />} />
+            </Routes>
+          </div>
+          <Footer />
         </Layout>
-        <Footer />
       </div>
     </Router>
   );
