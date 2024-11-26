@@ -1,6 +1,6 @@
 import React from 'react';
-import products from './api';  // Importing the product data from api.js
-import { Card, Button, Container, Row, Col } from 'react-bootstrap';  // React-Bootstrap components
+import products from './api';
+import { Card, Button, Container, Row, Col } from 'react-bootstrap';
 
 const Product = () => {
   return (

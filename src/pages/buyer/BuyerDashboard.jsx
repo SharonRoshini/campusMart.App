@@ -1,30 +1,40 @@
-import React, { useState } from 'react';
-import products from './../../services/api'; // Import the products data
+import React, { useState, useEffect } from 'react';
+import { fetchProducts } from './../../services/api';
 import { Container, Row, Col, Card, Button, Modal } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import { FaHeart } from 'react-icons/fa'; // FontAwesome Heart Icon
+import { FaHeart } from 'react-icons/fa';
 
 const BuyerDashboard = () => {
   const navigate = useNavigate();
-
-  // State to manage the wishlist
+  const [products, setProducts] = useState([]);
   const [wishlist, setWishlist] = useState([]);
 
   // State to control modal visibility and selected product
   const [showModal, setShowModal] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
 
-  // Navigate to product details page
+  useEffect(() => {
+    const getProducts = async () => {
+      try {
+        const productsData = await fetchProducts();
+        setProducts(productsData);
+      } catch (error) {
+        console.error('Error fetching products:', error);
+      }
+    };
+
+    getProducts();
+  }, []);
+
   const viewProductDetails = (productId) => {
     navigate(`/product/${productId}`);
   };
 
-  // Handle Wishlist Toggle
   const toggleWishlist = (productId) => {
     if (wishlist.includes(productId)) {
-      setWishlist(wishlist.filter((id) => id !== productId)); // Remove from wishlist
+      setWishlist(wishlist.filter((id) => id !== productId));
     } else {
-      setWishlist([...wishlist, productId]); // Add to wishlist
+      setWishlist([...wishlist, productId]);
     }
   };
 
@@ -52,10 +62,10 @@ const BuyerDashboard = () => {
               {/* Product Image */}
               <Card.Img
                 variant="top"
-                src={product.image}
+                src={product.imageUrl}
                 alt={product.name}
                 style={{ height: '250px', objectFit: 'cover', cursor: 'pointer', borderTopLeftRadius: '10px', borderTopRightRadius: '10px' }}
-                onClick={() => viewProductDetails(product.id)} // Navigate to details on click
+                onClick={() => viewProductDetails(product._id)}
               />
               <Card.Body className="d-flex flex-column">
                 {/* Product Name */}

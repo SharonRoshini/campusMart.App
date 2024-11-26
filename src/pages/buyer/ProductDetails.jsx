@@ -1,44 +1,62 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import products from './../../services/api'; // Your product data
+import { fetchProductById } from './../../services/api';
 import { Container, Row, Col, Button, Modal } from 'react-bootstrap';
 import { FaHeart } from 'react-icons/fa';
 
 const ProductDetail = () => {
   const { productId } = useParams();
-  const product = products.find((p) => p.id === parseInt(productId));
-
-  // State to control the modal visibility
+  const [product, setProduct] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [showModal, setShowModal] = useState(false);
-
-  // State for wishlist
   const [wishlist, setWishlist] = useState([]);
 
-  // Toggle the modal visibility
+  useEffect(() => {
+    const getProductDetails = async () => {
+      try {
+        const data = await fetchProductById(productId);
+        setProduct(data);
+      } catch (err) {
+        setError('Failed to fetch product details.');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    getProductDetails();
+  }, [productId]);
+
   const handleShowModal = () => setShowModal(true);
   const handleCloseModal = () => setShowModal(false);
 
-  // Wishlist toggle functionality
   const toggleWishlist = (productId) => {
     if (wishlist.includes(productId)) {
-      setWishlist(wishlist.filter((id) => id !== productId)); // Remove from wishlist
+      setWishlist(wishlist.filter((id) => id !== productId));
     } else {
-      setWishlist([...wishlist, productId]); // Add to wishlist
+      setWishlist([...wishlist, productId]);
     }
   };
 
+  if (loading) {
+    return <h2 className="text-center mt-5">Loading...</h2>;
+  }
+
+  if (error) {
+    return <h2 className="text-center mt-5">{error}</h2>;
+  }
+
   if (!product) {
-    return <h2 className="text-center mt-5" style={{ color: '#343a40' }}>Product Not Found</h2>;
+    return <h2 className="text-center mt-5">Product Not Found</h2>;
   }
 
   return (
     <>
       <Container className="mt-5" style={{ backgroundColor: '#f8f9fa', borderRadius: '10px', padding: '20px' }}>
         <Row>
-          {/* Product Image */}
           <Col md={6}>
             <img
-              src={product.image}
+              src={product.imageUrl}
               alt={product.name}
               style={{
                 height: '70%',
@@ -49,14 +67,12 @@ const ProductDetail = () => {
               }}
             />
           </Col>
-
-          {/* Product Details */}
           <Col md={6}>
             <h2 style={{ color: '#495057', fontWeight: 'bold' }}>{product.name}</h2>
-            <h4 style={{ color: '#6c757d' }}>{product.price}</h4>
+            <h4 style={{ color: '#6c757d' }}>${product.price}</h4>
             <p><strong>Category:</strong> {product.category}</p>
             <p><strong>Negotiable:</strong> {product.negotiable ? 'Yes' : 'No'}</p>
-            <p><strong>Product Age:</strong> {product.age}</p>
+            <p><strong>Product Age:</strong> {product.age} years</p>
             <p><strong>Contact:</strong> {product.contact}</p>
             <p><strong>Location:</strong> {product.location}</p>
             <p><strong>Available Till:</strong> {product.availableTill}</p>
@@ -95,7 +111,6 @@ const ProductDetail = () => {
         </Row>
       </Container>
 
-      {/* Modal for Contact Info */}
       <Modal show={showModal} onHide={handleCloseModal} centered>
         <Modal.Header closeButton>
           <Modal.Title style={{ fontSize: '1.25rem', color: '#495057' }}>Contact Seller</Modal.Title>
@@ -106,15 +121,15 @@ const ProductDetail = () => {
               <tbody>
                 <tr>
                   <td style={{ padding: '5px 10px', fontWeight: 'bold', textAlign: 'right' }}>Name:</td>
-                  <td style={{ padding: '5px 10px', textAlign: 'left' }}>{product.contactInfo.name}</td>
+                  <td style={{ padding: '5px 10px', textAlign: 'left' }}>{product.contactInfo?.name || 'N/A'}</td>
                 </tr>
                 <tr>
                   <td style={{ padding: '5px 10px', fontWeight: 'bold', textAlign: 'right' }}>Phone:</td>
-                  <td style={{ padding: '5px 10px', textAlign: 'left' }}>{product.contactInfo.phone}</td>
+                  <td style={{ padding: '5px 10px', textAlign: 'left' }}>{product.contactInfo?.phone || 'N/A'}</td>
                 </tr>
                 <tr>
                   <td style={{ padding: '5px 10px', fontWeight: 'bold', textAlign: 'right' }}>Email:</td>
-                  <td style={{ padding: '5px 10px', textAlign: 'left' }}>{product.contactInfo.email}</td>
+                  <td style={{ padding: '5px 10px', textAlign: 'left' }}>{product.contactInfo?.email || 'N/A'}</td>
                 </tr>
               </tbody>
             </table>
