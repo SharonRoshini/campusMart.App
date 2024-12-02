@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Form, Button, Container, Row, Col } from 'react-bootstrap';
 import axios from 'axios';
 import { RESIDENCE_OPTIONS } from '../../constants/options';
-import NavbarComponent from './../../components/common/NavbarComponent'; // Existing Header Component
+
 
 const Signup = () => {
   const [fullName, setFullName] = useState('');
@@ -52,9 +52,6 @@ const Signup = () => {
 
   return (
     <>
-      {/* Existing Header */}
-      <NavbarComponent />
-
       {/* Signup Form */}
       <Container
         className="d-flex flex-column justify-content-center align-items-center"

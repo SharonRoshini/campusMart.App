@@ -17,46 +17,54 @@ import SellerHeader from './components/seller/SellerHeader';
 import ProductDetail from './pages/buyer/ProductDetails';
 import './App.css';
 
+const Layout = ({ children }) => {
+  const location = useLocation();
+
+  // Determine visibility of various components
+  const showNavbar = ['/buyer-dashboard', '/seller-dashboard', '/product', '/buyer-profile', '/seller-profile'].some(
+    (route) => location.pathname.startsWith(route)
+  );
+
+  const dashboardAndProfileRoutes = [
+    '/buyer-dashboard',
+    '/seller-dashboard',
+    '/buyer-profile',
+    '/seller-profile',
+  ];
+
+  // Display the logo unless the current page is a dashboard or profile page
+  const showLogo = !dashboardAndProfileRoutes.some((route) => location.pathname.startsWith(route)) ||
+    location.pathname === '/choose-role';
+
+  return (
+    <>
+      {showNavbar && <NavbarComponent />}
+      {showLogo && (
+        <Logo
+          style={{
+            cursor: ['/', '/login', '/signup', '/choose-role'].includes(location.pathname) ? 'default' : 'pointer',
+          }}
+        />
+      )}
+      {location.pathname.startsWith('/buyer-dashboard') && (
+        <div className="d-flex">
+          <BuyerHeader />
+          <div className="flex-grow-1">{children}</div>
+        </div>
+      )}
+      {location.pathname.startsWith('/seller-dashboard') && (
+        <div className="d-flex">
+          <SellerHeader />
+          <div className="flex-grow-1">{children}</div>
+        </div>
+      )}
+      {!location.pathname.startsWith('/buyer-dashboard') &&
+        !location.pathname.startsWith('/seller-dashboard') && <div className="flex-grow-1">{children}</div>}
+    </>
+  );
+};
+
 function App() {
-  const Layout = ({ children }) => {
-    const location = useLocation();
-
-    const showNavbar = ['/buyer-dashboard', '/seller-dashboard', '/product/:productId', '/buyer-profile', '/seller-profile'].some((route) =>
-      location.pathname.startsWith(route.replace(':productId', ''))
-    );
-
-    const headerRoutes = ['/login', '/signup', '/choose-role', '/', '/forgot-password'];
-    const showLogo = headerRoutes.includes(location.pathname);
-
-    // Show filters and dashboard-related components only on dashboard routes
-    const showFilters = location.pathname.startsWith('/buyer-dashboard') || location.pathname.startsWith('/seller-dashboard');
-
-    // Hide Buyer/Seller header on profile pages
-    const showBuyerHeader = location.pathname.startsWith('/buyer-dashboard') && !location.pathname.startsWith('/buyer-profile');
-    const showSellerHeader = location.pathname.startsWith('/seller-dashboard') && !location.pathname.startsWith('/seller-profile');
-
-    return (
-      <>
-        {showNavbar && <NavbarComponent />}
-        {showLogo && <Logo />}
-        {showFilters && <div className="filters"> {/* Your filter component here */} </div>}
-        {showBuyerHeader && (
-          <div className="d-flex">
-            <BuyerHeader />
-            <div className="flex-grow-1">{children}</div>
-          </div>
-        )}
-        {showSellerHeader && (
-          <div className="d-flex">
-            <SellerHeader />
-            <div className="flex-grow-1">{children}</div>
-          </div>
-        )}
-        {!showBuyerHeader && !showSellerHeader && <div className="flex-grow-1">{children}</div>}
-      </>
-    );
-  };
-
   return (
     <Router>
       <div className="app d-flex flex-column min-vh-100">

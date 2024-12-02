@@ -12,7 +12,7 @@ function NavbarComponent() {
 
   // Function to handle Profile navigation based on role
   const handleProfileClick = () => {
-    const role = localStorage.getItem('userRole'); // Retrieve role from localStorage
+    const role = localStorage.getItem('userRole');
     if (role === 'seller') {
       navigate('/seller-profile');
     } else {
@@ -20,21 +20,34 @@ function NavbarComponent() {
     }
   };
 
+  // Function to handle Logo click based on user role
+  const handleLogoClick = () => {
+    const role = localStorage.getItem('userRole');
+    if (role === 'seller') {
+      navigate('/seller-dashboard');
+    } else {
+      navigate('/buyer-dashboard');
+    }
+  };
+
   return (
     <Navbar bg="dark" variant="dark" expand="lg" className="py-3">
       <Container fluid>
-        {/* Logo and Brand Name */}
-        <Navbar.Brand href="/" className="font-weight-bold d-flex flex-column align-items-center">
-          <img 
+        {/** Logo and Brand Name **/}
+        <Navbar.Brand 
+          onClick={handleLogoClick} 
+          style={{ cursor: 'pointer' }} 
+          className="font-weight-bold d-flex flex-column align-items-center"
+        >
+          <img
             src={logo}
-            alt="Campus Mart Logo" 
+            alt="Campus Mart Logo"
             className="navbar-brand-logo"
           />
         </Navbar.Brand>
-
         <Navbar.Toggle aria-controls="navbarSearchAndLinks" />
         <Navbar.Collapse id="navbarSearchAndLinks" className="justify-content-between">
-          {/* Simple Search Bar */}
+          {/** Simple Search Bar **/}
           <Form className="d-flex mx-auto search-bar-container">
             <FormControl
               type="text"
@@ -45,8 +58,7 @@ function NavbarComponent() {
               <FaSearch />
             </Button>
           </Form>
-
-          {/* Profile and Choose Role Links */}
+          {/** Profile and Choose Role Links **/}
           <Nav>
             <Nav.Link onClick={handleProfileClick} className="d-flex flex-column align-items-center mx-2">
               <RiUserHeartFill className="nav-link-icon" />
