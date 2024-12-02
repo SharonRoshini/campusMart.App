@@ -31,3 +31,13 @@ export const fetchProductById = async (productId) => {
     throw error;
   }
 };
+
+export const addToWishlist = async (userId, productId) => {
+  try {
+    const response = await axios.post(`/api/wishlist/add`, { userId, productId });
+    return response.data;
+  } catch (error) {
+    console.error('Error adding to wishlist:', error);
+    throw error;
+  }
+};

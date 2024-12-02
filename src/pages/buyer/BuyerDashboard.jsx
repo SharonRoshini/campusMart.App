@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { fetchProducts } from './../../services/api';
+import { fetchProducts , addToWishlist} from './../../services/api';
 import { Container, Row, Col, Card, Button, Modal } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { FaHeart } from 'react-icons/fa';
@@ -8,7 +8,7 @@ const BuyerDashboard = () => {
   const navigate = useNavigate();
   const [products, setProducts] = useState([]);
   const [wishlist, setWishlist] = useState([]);
-
+  const userId = '6744d64bb94292764d48fe7f';
   // State to control modal visibility and selected product
   const [showModal, setShowModal] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
@@ -25,18 +25,31 @@ const BuyerDashboard = () => {
 
     getProducts();
   }, []);
+ 
+  const toggleWishlist = async (productId) => {
+    if (wishlist.includes(productId)) {
+      setWishlist(wishlist.filter((id) => id !== productId));
+    } else {
+      try {
+        await addToWishlist(userId, productId); // Call API to add to wishlist
+        setWishlist([...wishlist, productId]);
+      } catch (error) {
+        console.error('Failed to add product to wishlist:', error);
+      }
+    }
+  };
 
   const viewProductDetails = (productId) => {
     navigate(`/product/${productId}`);
   };
 
-  const toggleWishlist = (productId) => {
-    if (wishlist.includes(productId)) {
-      setWishlist(wishlist.filter((id) => id !== productId));
-    } else {
-      setWishlist([...wishlist, productId]);
-    }
-  };
+  // const toggleWishlist = (productId) => {
+  //   if (wishlist.includes(productId)) {
+  //     setWishlist(wishlist.filter((id) => id !== productId));
+  //   } else {
+  //     setWishlist([...wishlist, productId]);
+  //   }
+  // };
 
   // Show Modal with contact info
   const handleShowModal = (product) => {
@@ -57,7 +70,7 @@ const BuyerDashboard = () => {
       </h2>
       <Row>
         {products.map((product) => (
-          <Col md={4} sm={6} key={product.id} className="mb-4">
+          <Col md={4} sm={6} key={product._id} className="mb-4">
             <Card className="h-100 shadow-sm" style={{ border: '1px solid #dee2e6', borderRadius: '10px' }}>
               {/* Product Image */}
               <Card.Img
@@ -81,11 +94,11 @@ const BuyerDashboard = () => {
                   <div className="d-flex align-items-center">
                     <FaHeart
                       size={18}
-                      color={wishlist.includes(product.id) ? '#e63946' : '#adb5bd'} // Subtle gray or red
+                      color={wishlist.includes(product._id) ? '#e63946' : '#adb5bd'} // Use consistent _id
                       style={{ cursor: 'pointer', marginRight: '5px' }}
-                      onClick={() => toggleWishlist(product.id)} // Toggle wishlist on click
+                      onClick={() => toggleWishlist(product._id)} // Use consistent _id
                       title={
-                        wishlist.includes(product.id)
+                        wishlist.includes(product._id)
                           ? 'Remove from Wishlist'
                           : 'Add to Wishlist'
                       }
