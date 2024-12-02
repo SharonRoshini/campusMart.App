@@ -41,3 +41,30 @@ export const addToWishlist = async (userId, productId) => {
     throw error;
   }
 };
+
+
+// Remove product from wishlist
+// api.js
+export const removeFromWishlist = async (userId, productId) => {
+  try {
+    const response = await axios.delete(`/api/wishlist/remove`, {
+      data: { userId, productId },
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error removing product from wishlist:', error);
+    throw error;
+  }
+};
+
+// Fetch user's wishlist
+export const getWishlist = async (userId) => {
+  try {
+    const response = await axios.get(`/api/wishlist/${userId}`);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching wishlist:', error);
+    throw error;
+  }
+};
+
