@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Form, Button, Container, Row, Col } from 'react-bootstrap';
 import axios from 'axios';
 import { API_URL } from '../../config';
@@ -27,7 +27,7 @@ const Login = () => {
         setError('Invalid email or password');
       }
     } catch (err) {
-      setError(err.response.data.message);
+      setError(err.response?.data?.message || 'An error occurred');
       console.error(err);
     }
   };
@@ -61,14 +61,28 @@ const Login = () => {
 
             {error && <p className="text-danger mt-3">{error}</p>}
 
-            <Button variant="primary" type="submit" className="mt-4" block>
+            {/* Login Button */}
+            <Button variant="primary" type="submit" className="mt-4 w-100">
               Login
             </Button>
           </Form>
 
+          {/* Subtle Buttons for Forgot Password and Create Account */}
           <div className="d-flex justify-content-between mt-3">
-            <Link to="/forgot-password">Forgot Password?</Link>
-            <Link to="/signup">Create a new account</Link>
+            <Button
+              variant="outline-secondary"
+              size="sm"
+              onClick={() => navigate('/forgot-password')}
+            >
+              Forgot Password?
+            </Button>
+            <Button
+              variant="outline-secondary"
+              size="sm"
+              onClick={() => navigate('/signup')}
+            >
+              Create a New Account
+            </Button>
           </div>
         </Col>
       </Row>

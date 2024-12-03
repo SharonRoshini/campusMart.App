@@ -1,6 +1,6 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import Logo from './components/common/Logo';
 import Footer from './components/common/Footer';
 import Login from './pages/common/Login';
@@ -17,6 +17,10 @@ import SellerHeader from './components/seller/SellerHeader';
 import ProductDetail from './pages/buyer/ProductDetails';
 import RequestProduct from './pages/buyer/RequestProduct';
 import Verification from './pages/common/Verification';
+//import Sidebar from './components/common/Sidebar';
+import PersonalInfo from './pages/common/PersonalInfo';
+import Wishlist from './pages/buyer/Wishlist';
+import Notifications from './pages/common/Notifications';
 import './App.css';
 
 const Layout = ({ children }) => {
@@ -93,6 +97,10 @@ function App() {
             <Route path="/choose-role" element={<BuyerSellerChoice />} />
             <Route path="/" element={<Login />} />
             <Route path="/verify" element={<Verification />} />
+            <Route path="/personal-info" element={<PersonalInfo />} />
+            <Route path="/wishlist" element={<Wishlist />} />
+            <Route path="/notifications" element={<Notifications />} />
+            <Route path="*" element={<Navigate to="/personal-info" replace />} />
             <Route path="/product/:productId" element={<ProductDetail />} />
             <Route path="/buyer-dashboard" element={<BuyerDashboard />} />
             <Route path="/buyer-profile" element={<BuyerProfile />} />
