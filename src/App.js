@@ -55,7 +55,9 @@ const Layout = ({ children }) => {
     "/session-expired",
     "/",
     "/verify",
-    "/update-password"
+    "/update-password",
+    "/privacy-policy",
+    "/terms-of-service"
   ].includes(location.pathname);
 
   // Define routes where Logo should be hidden
